@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+:root {
+  --color-main: #40CEDB;
+  --color-text: #555;
+}
+
+html, body, div {
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 2rem;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 2em 0;
+  padding: 0;
+}
+
+.nav {
+  display: none;
+  position: absolute;
+  margin: 0;
+  width: 80vw;
+  height: 100vh;
+  background: #FFF;
+  border-right: solid var(--color-main);
+  z-index: 1;
+}
+
+.nav-button {
+  position: absolute;
+  float: left;
+  top: 0.5em;
+  left: 0.5em;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.nav-toggle, .nav-toggle-mid {
+  display: block;
+  width: 1em;
+  height: 0.03em;
+  background-color: #AAA;
+  z-index: -1;
+}
+
+.nav-toggle-mid {
+  margin: 0.2em 0;
+}
+
+.nav-item {
+  display: block;
+  position: relative;
+  padding: 0.5em;
+}
+
+.nav-item:before, 
+.nav-item:after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 0.02em;
+  margin-top: 0.8em;
+  background: var(--color-text);
+  z-index: -1;
+}
+
+.nav-item:before {
+  left: 0;
+}
+
+.nav-item:after {
+  right: 0;
+  transition: width 0.3s;
+}
+
+.nav-item:hover:before {
+  width: 100%;
+  transition: width 0.5s;
+}
+
+.nav-item:hover:after {
+  background: transparent;
+  width: 80%;
+  transition: 0s;
+}
+
+.left-col {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.i-am {
+  text-align: center;
+  font-size: 3rem;
+  color: var(--color-main);
+}
+
+.profile-picture {
+  display: block;
+  margin-top: 2em;
+  margin-right: auto;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  width: 5em;
+  height: 5em;
+  background-image: url('profile.png');
+  background-position: 0 -600px;
+  border-radius: 50%;
+}
+
+.right-col {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: var(--color-main);
+  color: var(--color-text);
+}
+
+#title {
+  padding: 0 0 0.75em 0;
+  text-align: center;
+  font-size: 3rem;
+  color: #000;
+}
+
+.content {
+  padding: 0.5em 2em;
+  height: 100vh;
+  font-size: 1rem;
+}

@@ -1,4 +1,4 @@
-# seraphinush.github.io
+# seraphinush.github.io ![](https://img.shields.io/badge/version-wip-333333.svg?colorA=333333&colorB=DD5F0A)
 Repository for personal website 
 
 ## License
