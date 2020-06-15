@@ -3,6 +3,7 @@
 :root {
   --color-main: #40CEDB;
   --color-text: #555;
+  --color-bg: rgba(255, 250, 225, 1);
 }
 
 html, body, div {
@@ -30,12 +31,12 @@ ul {
   width: 80vw;
   height: 100vh;
   background: #FFF;
-  border-right: solid var(--color-main);
+  border-right: solid var(--color-bg);
   z-index: 1;
 }
 
 .nav-button {
-  position: absolute;
+  position: fixed;
   float: left;
   top: 0.5em;
   left: 0.5em;
@@ -47,7 +48,7 @@ ul {
   display: block;
   width: 1em;
   height: 0.03em;
-  background-color: #AAA;
+  background-color: #000;
   z-index: -1;
 }
 
@@ -93,29 +94,46 @@ ul {
 }
 
 .left-col {
-  display: block;
+  position: relative;
   margin: 0;
   padding: 0;
   width: 100%;
-}
-
-.i-am {
-  text-align: center;
-  font-size: 3rem;
-  color: var(--color-main);
+  height: 100vh;
 }
 
 .profile-picture {
-  display: block;
-  margin-top: 2em;
-  margin-right: auto;
-  margin-bottom: 0.5em;
-  margin-left: auto;
-  width: 5em;
-  height: 5em;
+  position: absolute; 
+  left: 50%;
+  margin-left: -3.6em;
+  top: 20vh;
+  width: 6em;
+  height: 6em;
   background-image: url('profile.png');
   background-position: 0 -600px;
+  border: 0.6em solid var(--color-bg);
   border-radius: 50%;
+}
+
+.title {
+  position: absolute;
+  left: 50%;
+  margin-left: 15vw;
+  margin-top: 60vh;
+  width: 70vw;
+  height: 24vh;
+  right: 0;
+  left: 0;
+  font-size: 2rem;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.title-name {
+  text-transform: uppercase;
+}
+
+.title-desc {
+  font-size: 1.5rem;
 }
 
 .right-col {
@@ -123,19 +141,12 @@ ul {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: var(--color-main);
+  background-color: var(--color-bg);
   color: var(--color-text);
-}
-
-#title {
-  padding: 0 0 0.75em 0;
-  text-align: center;
-  font-size: 3rem;
-  color: #000;
+  height: 100vh;
 }
 
 .content {
   padding: 0.5em 2em;
-  height: 100vh;
   font-size: 1rem;
 }
