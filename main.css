@@ -2,6 +2,7 @@
 
 :root {
   --color-main: #40CEDB;
+  --color-header: #222;
   --color-text: #555;
   --color-bg: rgba(255, 250, 225, 1);
 }
@@ -13,9 +14,11 @@ html, body, div {
   font-size: 2rem;
 }
 
-p {
+p, h2, h3, h4 {
   margin: 0;
   padding: 0;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: normal;
 }
 
 ul {
@@ -104,14 +107,17 @@ ul {
 .profile-picture {
   position: absolute; 
   left: 50%;
-  margin-left: -3.6em;
+  margin-left: -3.4em; /* 0.5 * width + border width */
   top: 20vh;
   width: 6em;
   height: 6em;
-  background-image: url('profile.png');
-  background-position: 0 -600px;
-  border: 0.6em solid var(--color-bg);
+  border: 0.4em solid var(--color-main);
   border-radius: 50%;
+
+  /* TODO */
+  background-image: url('profile.png');
+  background-position: 0 500px;
+  background-size: cover;
 }
 
 .title {
@@ -129,6 +135,7 @@ ul {
 }
 
 .title-name {
+  font-size: 2rem;
   text-transform: uppercase;
 }
 
@@ -138,15 +145,38 @@ ul {
 
 .right-col {
   display: block;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  background-color: var(--color-bg);
   color: var(--color-text);
-  height: 100vh;
+  font-size: 1rem;
 }
 
-.content {
-  padding: 0.5em 2em;
-  font-size: 1rem;
+.right-col h2 {
+  margin-bottom: 0.6em;
+  font-size: 4rem;
+  text-transform: capitalize;
+  color: var(--color-main);
+}
+
+.right-col h3 {
+  margin-bottom: 0.4em;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  color: var(--color-header);
+}
+
+.right-col p {
+  font-size: 0.5rem;
+  margin-bottom: 0.4em;
+  color: var(--color-text);
+}
+
+.content-profile {
+  padding: 3em 2em;
+  min-height: calc(100vh - 6em);
+  background-color: var(--color-bg);
+}
+
+.content-education {
+  padding: 3em 2em;
+  min-height: calc(100vh - 6em);
+  background-color: #FFF;
 }
