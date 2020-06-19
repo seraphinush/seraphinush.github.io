@@ -180,3 +180,15 @@ ul {
   min-height: calc(100vh - 6em);
   background-color: #FFF;
 }
+
+.content-projects {
+  padding: 3em 2em;
+  min-height: calc(100vh - 6em);
+  background-color: var(--color-bg);
+}
+
+.content-contact {
+  padding: 3em 2em;
+  min-height: calc(100vh - 6em);
+  background-color: var(--color-text);
+}
