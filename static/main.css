@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+:root {
+  --color-title: #000;
+  --color-primary: #36ACB6;
+  --color-secondary: #489DA5;
+  --color-slide: #FFF;
+  --color-background: #E5E5E5;
+  --font-family: 'Quicksand', sans-serif;
+  --font-family-accent: 'Poppins', sans-serif;
+}
+
+html, body {
+  margin: 0 0;
+  padding: 0 0;
+  display: block;
+  width: 100vw;
+  font-family: var(--font-family);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, ul, ol, li, th, td {
+  padding: 0 0;
+  margin: 0 0;
+}
+
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.center-inline {
+  justify-content: center;
+}
+
+.center-perpendicular {
+  align-items: center;
+}
+
+.padding-bottom {
+  padding-bottom: 1rem;
+}
+
+.accent {
+  font-family: var(--font-family-accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.dim {
+  opacity: 0.3;
+}
+
+/* content */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  right: -100%;
+  background-color: var(--color-slide);
+  transition: all 1s ease;
+  z-index: 100;
+}
+
+.slide.active {
+  right: 0;
+}
+
+.name {
+  width: 100%;
+  height: 30px;
+  color: var(--color-title);
+  transition: all 1s ease-in;
+  overflow: hidden;
+  z-index: 101;
+}
+
+.name span {
+  display: inline-block;
+  font-size: 2rem;
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: all 1s ease-in-out;
+}
+
+.name span.active {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.name span.after {
+  color: var(--color-background);
+}
+
+/* content */
+
+.content {
+  margin-top: 70px;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.section {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  background-color: #FFF;
+  justify-content: space-between;
+}
+
+.section-header {
+  width: 25%;
+}
+
+.section-image {
+  width: 100%;
+}
+
+.skillset {
+  width: 100%;
+  justify-content: space-between;
+}
+
+table, tr, th, td {
+  font-weight: unset;
+}
+
+th {
+  padding-right: 15px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.proficiency {
+  transition: all 0.3s linear;
+}
+
+.proficiency:hover {
+  transform: scale(1.1);
+}
+
+.bar {
+  display: inline-block;
+  height: 12px;
+  width: 4px;
+  border: solid 1px var(--color-primary);
+  background-color: var(--color-primary);
+  opacity: 0.3;
+}
+
+.filled {
+  opacity: 1;
+}
+
+#portfolio, #profile {
+  transition: all 1s linear;
+  opacity: 0;
+}
+
+#portfolio.active, #profile.active {
+  opacity: 1;
+}
+
+#profile {
+  display: none;
+}
+
+.contact {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  color: #FFF;
+  cursor: pointer;
+  transition: all 0.3s linear;
+  z-index: -1;
+}
+
+.contact.active {
+  opacity: 1;
+  z-index: 10;
+}
+
+@media screen and (min-width: 0px) {
+  html, body {
+    font-size: 12px;
+  }
+  #summary, #education, .skillset {
+    flex-direction: column;
+  }
+  .section {
+    width: calc(100% - 40px);
+    align-items: center;
+    padding: 50px 20px;
+  }
+  .section-header {
+    width: 150px;
+    text-align: center;
+  }
+  .section-content {
+    width: 100%;
+  }
+  .section-image {
+    padding-bottom: 20px;
+  }
+  .skillset {
+    align-items: center;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
+  h3 {
+    display: block;
+    font-size: 1rem;
+  }
+  h2, h3 {
+    font-weight: unset;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  html, body {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  html, body {
+    font-size: 16px;
+  }
+  #summary, #education, .skillset {
+    flex-direction: row;
+  }
+  .section {
+    width: calc(90% - 100px);
+    align-items: unset;
+    padding: 50px;
+  }
+  .section-header {
+    width: 25%;
+    text-align: unset;
+  }
+  .section-content {
+    width: 70%;
+  }
+  .section-image {
+    padding-bottom: 0;
+  }
+  .skillset {
+    align-items: unset;
+  }
+  h2, h3 {
+    text-align: unset;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .section {
+    width: 1000px;
+  }
+}

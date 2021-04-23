@@ -1,0 +1,14 @@
+.footer {
+  min-height: 70px;
+  height: 70px;
+  max-height: 70px;
+  background-color: var(--color-background);
+}
+
+.footer p {
+  letter-spacing: 1px;
+}
+
+.footer span {
+  letter-spacing: 2px;
+}

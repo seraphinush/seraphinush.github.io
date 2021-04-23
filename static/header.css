@@ -1,0 +1,49 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0 50px;
+  width: calc(100% - 100px);
+  min-height: 70px;
+  max-height: 70px;
+  background-color: #FFF;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.nav-title {
+  height: 25px; 
+  font-size: 1.2rem;
+  color: var(--color-title);
+  overflow: hidden;
+}
+
+.nav {
+  margin-left: 50px;
+}
+
+.nav a {
+  margin-left: 15px;
+  color: var(--color-title);
+  font-weight: 400 !important;
+}
+
+.line-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 0 5px;
+}
+
+.line {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  left: 0;
+  width: 0;
+  border-top: 0.05rem solid var(--color-title);
+  transition: all 0.1s linear;
+}
+
+.line-wrap:hover span.line {
+  width: 100%;
+}
