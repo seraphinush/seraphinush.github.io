@@ -26,12 +26,19 @@ async function asyncClassRemove(el, toRemove, ms) {
   });
 }
 
+// global
+let navMobileEnabled = false;
+let profileEnabled = false;
+let portfolioEnabled = true;
+let contactEnabled = false;
+let currentlyEnabled = 'portfolio';
+
 history.replaceState({ url: 'index.html' }, null, window.location.origin + '');
 
 window.addEventListener('load', async () => {
 
-
   // consts
+  const home = document.getElementById('home');
   const slide = document.getElementById('slide');
   const burgers = document.getElementById('burgers');
   const navMobile = document.getElementById('nav-mobile');
@@ -77,12 +84,6 @@ window.addEventListener('load', async () => {
     document.getElementById('contact-button-mobile'),
     document.getElementById('resume-button-mobile')
   ];
-
-  let navMobileEnabled = false;
-  let profileEnabled = false;
-  let portfolioEnabled = true;
-  let contactEnabled = false;
-  let currentlyEnabled = 'portfolio';
 
   // helper
   const enableSection = (el) => {
@@ -143,6 +144,11 @@ window.addEventListener('load', async () => {
     navMobile.classList.remove('active');
     navMobileEnabled = false;
   }
+
+  // home
+  home.addEventListener('click', () => {
+    history.pushState({ url: 'index.html' }, null, window.location.origin + '');
+  });
 
   // mobile menu
   burgers.addEventListener('click', () => {
@@ -227,8 +233,6 @@ window.addEventListener('load', async () => {
     }
   })
 
-
-
   // start
   await asyncForEach(nameArray, async (el) => {
     await sleep(80);
@@ -243,3 +247,6 @@ window.addEventListener('load', async () => {
   }, 2000);
 
 });
+
+
+window.w
