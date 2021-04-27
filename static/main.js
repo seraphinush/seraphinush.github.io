@@ -33,6 +33,20 @@ let portfolioEnabled = true;
 let contactEnabled = false;
 let currentlyEnabled = 'portfolio';
 
+if (window.location.pathname.length > 1) {
+  currentlyEnabled = window.location.pathname.slice(1);
+
+  console.log(currentlyEnabled);
+  switch (currentlyEnabled) {
+    case 'portfolio':
+      portfolioEnabled = false;
+      break;
+    case 'profile':
+      profileEnabled = false;
+      break;
+  }
+}
+
 history.replaceState({ url: 'index.html' }, null, window.location.origin + '');
 
 window.addEventListener('load', async () => {
