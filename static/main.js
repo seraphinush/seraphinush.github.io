@@ -26,14 +26,13 @@ async function asyncClassRemove(el, toRemove, ms) {
   });
 }
 
-history.replaceState({ url: 'index.html' }, null, '');
+history.replaceState({ url: 'index.html' }, null, window.location.origin + '');
 
 window.addEventListener('load', async () => {
 
 
   // consts
   const slide = document.getElementById('slide');
-  const content = document.getElementById('content');
   const burgers = document.getElementById('burgers');
   const navMobile = document.getElementById('nav-mobile');
   const portfolio = document.getElementById('portfolio');
@@ -165,7 +164,7 @@ window.addEventListener('load', async () => {
       }
       if (!portfolioEnabled) {
         await enableSection(portfolio);
-        history.replaceState({ url: 'portfolio.html' }, null, 'portfolio')
+        history.replaceState({ url: 'portfolio.html' }, null, window.location.origin + '/portfolio')
         slide.classList.remove('active');
         currentlyEnabled = 'portfolio';
         portfolioEnabled = true;
@@ -189,7 +188,7 @@ window.addEventListener('load', async () => {
       }
       if (!profileEnabled) {
         await enableSection(profile);
-        history.replaceState({ url: 'profile.html' }, null, 'profile')
+        history.replaceState({ url: 'profile.html' }, null, window.location.origin + '/profile')
         slide.classList.remove('active');
         currentlyEnabled = 'profile';
         profileEnabled = true;
@@ -221,7 +220,7 @@ window.addEventListener('load', async () => {
 
   contact.addEventListener('click', (e) => {
     if (e.target.classList.contains('contact-button')) return;
-    //if (e.target.classList.contains('contact-button-mobile')) return;
+    if (e.target.classList.contains('contact-button-mobile')) return;
     if (contactEnabled) {
       contact.classList.remove('active');
       contactEnabled = false;
@@ -238,7 +237,7 @@ window.addEventListener('load', async () => {
 
   setTimeout(() => {
     if (currentlyEnabled == 'portfolio') {
-      history.replaceState({ url: 'portfolio.html' }, null, 'portfolio');
+      history.replaceState({ url: 'portfolio.html' }, null, window.location.origin + '/portfolio');
     }
     slide.classList.toggle('active');
   }, 2000);
