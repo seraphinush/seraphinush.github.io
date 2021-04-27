@@ -1,0 +1,119 @@
+.section {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  background-color: #FFF;
+  justify-content: space-between;
+}
+
+.section-header {
+  width: 25%;
+}
+
+.section-image {
+  width: 100%;
+}
+
+.skillset {
+  width: 100%;
+  justify-content: space-between;
+}
+
+table, tr, th, td {
+  font-weight: unset;
+}
+
+th {
+  padding-right: 15px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.proficiency {
+  transition: all 0.3s linear;
+}
+
+.proficiency:hover {
+  transform: scale(1.1);
+}
+
+.bar {
+  display: inline-block;
+  height: 12px;
+  width: 4px;
+  border: solid 1px var(--color-primary);
+  background-color: var(--color-primary);
+  opacity: 0.3;
+}
+
+.filled {
+  opacity: 1;
+}
+
+#profile {
+  transition: all 1s linear;
+  opacity: 0;
+}
+
+#profile.active {
+  opacity: 1;
+}
+
+#profile {
+  display: none;
+}
+
+@media screen and (min-width: 0px) {
+  #summary, #education, .skillset {
+    flex-direction: column;
+  }
+  .section {
+    width: calc(100% - 40px);
+    align-items: center;
+    padding: 50px 20px;
+  }
+  .section-header {
+    width: 150px;
+    text-align: center;
+  }
+  .section-content {
+    width: 100%;
+  }
+  .section-image {
+    padding-bottom: 20px;
+  }
+  .skillset {
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 800px) {
+
+  #summary, #education, .skillset {
+    flex-direction: row;
+  }
+  .section {
+    width: calc(90% - 100px);
+    align-items: unset;
+    padding: 50px;
+  }
+  .section-header {
+    width: 25%;
+    text-align: unset;
+  }
+  .section-content {
+    width: 70%;
+  }
+  .section-image {
+    padding-bottom: 0;
+  }
+  .skillset {
+    align-items: unset;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .section {
+    width: 1000px;
+  }
+}

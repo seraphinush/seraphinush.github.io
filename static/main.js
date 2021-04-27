@@ -1,5 +1,5 @@
 // helper
-const sleep = (ms) => {
+async function sleep(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
@@ -10,27 +10,49 @@ async function asyncForEach(arr, cb) {
     await cb(arr[i], i, arr);
 }
 
+async function asyncClassAdd(el, toAdd, ms) {
+  return new Promise(async (resolve) => {
+    el.classList.add(toAdd);
+    await sleep(ms);
+    resolve();
+  });
+}
+
+async function asyncClassRemove(el, toRemove, ms) {
+  return new Promise(async (resolve) => {
+    el.classList.remove(toRemove);
+    await sleep(ms);
+    resolve();
+  });
+}
+
+history.replaceState({ url: 'index.html' }, null, '');
+
 window.addEventListener('load', async () => {
 
+
+  // consts
   const slide = document.getElementById('slide');
-  const name = document.getElementById('name');
+  const content = document.getElementById('content');
+  const burgers = document.getElementById('burgers');
+  const navMobile = document.getElementById('nav-mobile');
   const portfolio = document.getElementById('portfolio');
   const profile = document.getElementById('profile');
   const contact = document.getElementById('contact');
 
   const contactButtons = [
     document.getElementById('contact-button'),
-    //document.getElementById('contact-button-mobile')
+    document.getElementById('contact-button-mobile')
   ];
 
   const portfolioButtons = [
     document.getElementById('portfolio-button'),
-    //document.getElementById('portfolio-button-mobile')
+    document.getElementById('portfolio-button-mobile')
   ];
 
   const profileButtons = [
     document.getElementById('profile-button'),
-    //document.getElementById('profile-button-mobile')
+    document.getElementById('profile-button-mobile')
   ];
 
   const nameArray = [
@@ -50,12 +72,45 @@ window.addEventListener('load', async () => {
     document.querySelector('.name-g')
   ];
 
+  const navMobileLinks = [
+    document.getElementById('profile-button-mobile'),
+    document.getElementById('portfolio-button-mobile'),
+    document.getElementById('contact-button-mobile'),
+    document.getElementById('resume-button-mobile')
+  ];
+
+  let navMobileEnabled = false;
   let profileEnabled = false;
   let portfolioEnabled = true;
   let contactEnabled = false;
   let currentlyEnabled = 'portfolio';
 
-  const disableElement = (el) => {
+  // helper
+  const enableSection = (el) => {
+    return new Promise(async (resolve) => {
+      if (currentlyEnabled) {
+        switch (currentlyEnabled) {
+          case 'portfolio':
+            disableSection(portfolio);
+            portfolioEnabled = false;
+            break;
+          case 'profile':
+            disableSection(profile);
+            profileEnabled = false;
+            break;
+        }
+      }
+      await sleep(1050);
+      if (el) {
+        el.style.display = 'flex';
+        await sleep(1);
+        el.classList.add('active');
+      }
+      resolve();
+    });
+  }
+
+  const disableSection = (el) => {
     return new Promise(async (resolve) => {
       await sleep(1050);
       if (el) {
@@ -67,45 +122,55 @@ window.addEventListener('load', async () => {
     });
   }
 
-  const enableElement = (el) => {
-    return new Promise(async (resolve) => {
-      if (currentlyEnabled) {
-        switch (currentlyEnabled) {
-          case 'portfolio':
-            disableElement(portfolio);
-            portfolioEnabled = false;
-            break;
-          case 'profile':
-            disableElement(profile);
-            profileEnabled = false;
-            break;
-        }
-      }
-      await sleep(1050);
-      if (el) {
-        el.style.display = 'flex';
-        setTimeout(() => {
-          el.classList.add('active');
-        }, 1);
-      }
-      resolve();
+  const enableNavMobileLinks = async () => {
+    if (contactEnabled) return;
+    burgers.classList.add('active');
+    navMobile.classList.add('active');
+    await asyncForEach(navMobileLinks, async (el) => {
+      await sleep(120);
+      el.classList.add('active');
     });
-
+    navMobileEnabled = true;
   }
+
+  const disableNavMobileLinks = async () => {
+    if (contactEnabled) return;
+    burgers.classList.remove('active');
+    await asyncForEach(navMobileLinks, async (el) => {
+      el.classList.remove('active');
+      await sleep(120);
+    });
+    await sleep(180);
+    navMobile.classList.remove('active');
+    navMobileEnabled = false;
+  }
+
+  // mobile menu
+  burgers.addEventListener('click', () => {
+    if (navMobileEnabled) {
+      disableNavMobileLinks();
+    } else {
+      enableNavMobileLinks();
+    }
+  });
 
   // portfolio
   portfolioButtons.forEach(el => {
     el.addEventListener('click', async () => {
       if (contactEnabled) return;
       if (portfolioEnabled) return;
-      slide.classList.add('active');
+      await asyncClassAdd(slide, 'active', 200);
+      if (navMobileEnabled) {
+        disableNavMobileLinks();
+      }
       if (!portfolioEnabled) {
-        await enableElement(portfolio);
+        await enableSection(portfolio);
+        history.replaceState({ url: 'portfolio.html' }, null, 'portfolio')
         slide.classList.remove('active');
         currentlyEnabled = 'portfolio';
         portfolioEnabled = true;
       } else {
-        await disableElement(portfolio);
+        await disableSection(portfolio);
         slide.classList.remove('active');
         portfolioEnabled = false;
       }
@@ -118,15 +183,19 @@ window.addEventListener('load', async () => {
     el.addEventListener('click', async () => {
       if (contactEnabled) return;
       if (profileEnabled) return;
-      slide.classList.add('active');
+      await asyncClassAdd(slide, 'active', 200);
+      if (navMobileEnabled) {
+        disableNavMobileLinks();
+      }
       if (!profileEnabled) {
-        await enableElement(profile);
+        await enableSection(profile);
+        history.replaceState({ url: 'profile.html' }, null, 'profile')
         slide.classList.remove('active');
         currentlyEnabled = 'profile';
         profileEnabled = true;
       } else {
-        await disableElement(profile);
         slide.classList.remove('active');
+        await disableSection(profile);
         profileEnabled = false;
       }
     });
@@ -135,6 +204,9 @@ window.addEventListener('load', async () => {
   // contact
   contactButtons.forEach(el => {
     el.addEventListener('click', () => {
+      if (navMobileEnabled) {
+        disableNavMobileLinks();
+      }
       if (!contactEnabled) {
         contact.classList.add('active');
         setTimeout(() => {
@@ -165,8 +237,10 @@ window.addEventListener('load', async () => {
   });
 
   setTimeout(() => {
+    if (currentlyEnabled == 'portfolio') {
+      history.replaceState({ url: 'portfolio.html' }, null, 'portfolio');
+    }
     slide.classList.toggle('active');
-    name.classList.toggle('dim');
   }, 2000);
 
 });

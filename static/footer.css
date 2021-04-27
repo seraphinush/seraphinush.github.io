@@ -3,6 +3,7 @@
   height: 70px;
   max-height: 70px;
   background-color: var(--color-background);
+  z-index: 100;
 }
 
 .footer p {
