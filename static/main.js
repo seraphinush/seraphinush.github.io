@@ -38,7 +38,6 @@ history.replaceState({ url: 'index.html' }, null, window.location.origin + '');
 window.addEventListener('load', async () => {
 
   // consts
-  const home = document.getElementById('home');
   const slide = document.getElementById('slide');
   const burgers = document.getElementById('burgers');
   const navMobile = document.getElementById('nav-mobile');
@@ -145,11 +144,6 @@ window.addEventListener('load', async () => {
     navMobileEnabled = false;
   }
 
-  // home
-  home.addEventListener('click', () => {
-    history.pushState({ url: 'index.html' }, null, window.location.origin + '');
-  });
-
   // mobile menu
   burgers.addEventListener('click', () => {
     if (navMobileEnabled) {
@@ -231,7 +225,7 @@ window.addEventListener('load', async () => {
       contact.classList.remove('active');
       contactEnabled = false;
     }
-  })
+  });
 
   // start
   await asyncForEach(nameArray, async (el) => {
