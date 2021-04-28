@@ -51,12 +51,12 @@ if (page) {
 } else {
   portfolioEnabled = true;
   currentlyEnabled = 'portfolio';
-  console.log('defaulted')
 }
 
 window.addEventListener('load', async () => {
 
   // consts
+  const home = document.getElementById('home');
   const slide = document.getElementById('slide');
   const burgers = document.getElementById('burgers');
   const navMobile = document.getElementById('nav-mobile');
@@ -187,6 +187,12 @@ window.addEventListener('load', async () => {
     navMobileEnabled = false;
   }
 
+  // home
+  home.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = window.location.origin;
+  });
+
   // mobile menu
   burgers.addEventListener('click', () => {
     if (navMobileEnabled) {
@@ -276,9 +282,11 @@ window.addEventListener('load', async () => {
     switch (currentlyEnabled) {
       case 'portfolio':
         await enableSection(portfolio);
+        history.pushState(null, null, '?page=portfolio');
         break;
       case 'profile':
         await enableSection(profile);
+        history.pushState(null, null, '?page=profile');
         break;
     }
     slide.classList.toggle('active');
