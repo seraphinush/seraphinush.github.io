@@ -248,7 +248,7 @@ window.addEventListener('load', async () => {
 
   // contact
   contactButtons.forEach(el => {
-    el.addEventListener('click', () => {
+    el.addEventListener('click', async () => {
       if (navMobileEnabled) {
         disableNavMobileLinks();
         await sleep(300);
