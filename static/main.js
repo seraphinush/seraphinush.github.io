@@ -213,6 +213,7 @@ window.addEventListener('load', async () => {
       await asyncClassAdd(slide, 'active', 1000);
       if (navMobileEnabled) {
         disableNavMobileLinks();
+        await sleep(300);
       }
       await toggleSection(portfolio, 'portfolio');
       history.pushState(null, null, '?page=portfolio');
@@ -235,6 +236,7 @@ window.addEventListener('load', async () => {
 
       if (navMobileEnabled) {
         disableNavMobileLinks();
+        await sleep(300);
       }
       await toggleSection(profile, 'profile');
       history.pushState(null, null, '?page=profile');
@@ -249,6 +251,7 @@ window.addEventListener('load', async () => {
     el.addEventListener('click', () => {
       if (navMobileEnabled) {
         disableNavMobileLinks();
+        await sleep(300);
       }
       if (!contactEnabled) {
         contact.classList.add('active');
