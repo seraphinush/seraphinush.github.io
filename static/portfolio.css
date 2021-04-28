@@ -3,6 +3,7 @@
 }
 
 #portfolio {
+  display: none;
   flex-wrap: wrap;
   transition: all 1s linear;
   opacity: 0;
@@ -15,6 +16,8 @@
 .project {
   position: relative;
   overflow: hidden;
+  transition: all 0.8s ease-in;
+  opacity: 0;
 }
 
 .project a {

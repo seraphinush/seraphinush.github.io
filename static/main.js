@@ -26,28 +26,33 @@ async function asyncClassRemove(el, toRemove, ms) {
   });
 }
 
-// global
+// global defaults
 let navMobileEnabled = false;
 let profileEnabled = false;
-let portfolioEnabled = true;
+let portfolioEnabled = false;
 let contactEnabled = false;
-let currentlyEnabled = 'portfolio';
+let currentlyEnabled = '';
+let readyState = false;
 
-if (window.location.pathname.length > 1) {
-  currentlyEnabled = window.location.pathname.slice(1);
-
-  console.log(currentlyEnabled);
-  switch (currentlyEnabled) {
+// search based page view
+let params = new URLSearchParams(window.location.search.substring(1));
+let page = params.get('page');
+if (page) {
+  switch (page) {
     case 'portfolio':
-      portfolioEnabled = false;
+      currentlyEnabled = page;
+      portfolioEnabled = true;
       break;
     case 'profile':
-      profileEnabled = false;
+      currentlyEnabled = page;
+      profileEnabled = true;
       break;
   }
+} else {
+  portfolioEnabled = true;
+  currentlyEnabled = 'portfolio';
+  console.log('defaulted')
 }
-
-history.replaceState({ url: 'index.html' }, null, window.location.origin + '');
 
 window.addEventListener('load', async () => {
 
@@ -99,25 +104,45 @@ window.addEventListener('load', async () => {
   ];
 
   // helper
-  const enableSection = (el) => {
+  const toggleSection = (el, page) => {
     return new Promise(async (resolve) => {
+
       if (currentlyEnabled) {
         switch (currentlyEnabled) {
           case 'portfolio':
-            disableSection(portfolio);
+            await disableSection(portfolio);
             portfolioEnabled = false;
             break;
           case 'profile':
-            disableSection(profile);
+            await disableSection(profile);
             profileEnabled = false;
             break;
         }
       }
-      await sleep(1050);
+
+      currentlyEnabled = page;
+      await enableSection(el);
+      resolve();
+    });
+  }
+
+  const enableSection = (el) => {
+    return new Promise(async (resolve) => {
       if (el) {
         el.style.display = 'flex';
-        await sleep(1);
-        el.classList.add('active');
+        await sleep(5);
+
+        // TODO -- need check for the most optimal method ..
+        if (currentlyEnabled == 'portfolio') {
+          const projects = portfolio.querySelectorAll('.project');
+          await asyncClassAdd(el, 'active', 0);
+          asyncForEach(projects, async (el) => {
+            await sleep(250);
+            el.style.opacity = 1;
+          });
+        } else {
+          await asyncClassAdd(el, 'active', 0);
+        }
       }
       resolve();
     });
@@ -125,10 +150,14 @@ window.addEventListener('load', async () => {
 
   const disableSection = (el) => {
     return new Promise(async (resolve) => {
-      await sleep(1050);
       if (el) {
         el.style.display = 'none';
         el.classList.remove('active');
+
+        if (currentlyEnabled == 'portfolio') {
+          const projects = portfolio.querySelectorAll('.project');
+          projects.forEach(el => { el.style.opacity = 0; });
+        }
         currentlyEnabled = null;
       }
       resolve();
@@ -170,23 +199,20 @@ window.addEventListener('load', async () => {
   // portfolio
   portfolioButtons.forEach(el => {
     el.addEventListener('click', async () => {
+      if (!readyState) return;
       if (contactEnabled) return;
       if (portfolioEnabled) return;
-      await asyncClassAdd(slide, 'active', 200);
+      readyState = false;
+
+      await asyncClassAdd(slide, 'active', 1000);
       if (navMobileEnabled) {
         disableNavMobileLinks();
       }
-      if (!portfolioEnabled) {
-        await enableSection(portfolio);
-        history.replaceState({ url: 'portfolio.html' }, null, window.location.origin + '/portfolio')
-        slide.classList.remove('active');
-        currentlyEnabled = 'portfolio';
-        portfolioEnabled = true;
-      } else {
-        await disableSection(portfolio);
-        slide.classList.remove('active');
-        portfolioEnabled = false;
-      }
+      await toggleSection(portfolio, 'portfolio');
+      history.pushState(null, null, '?page=portfolio');
+      slide.classList.remove('active');
+      portfolioEnabled = true;
+      readyState = true;
     });
   });
 
@@ -194,23 +220,21 @@ window.addEventListener('load', async () => {
   // profile
   profileButtons.forEach(el => {
     el.addEventListener('click', async () => {
+      if (!readyState) return;
       if (contactEnabled) return;
       if (profileEnabled) return;
-      await asyncClassAdd(slide, 'active', 200);
+
+      readyState = false;
+      await asyncClassAdd(slide, 'active', 1000);
+
       if (navMobileEnabled) {
         disableNavMobileLinks();
       }
-      if (!profileEnabled) {
-        await enableSection(profile);
-        history.replaceState({ url: 'profile.html' }, null, window.location.origin + '/profile')
-        slide.classList.remove('active');
-        currentlyEnabled = 'profile';
-        profileEnabled = true;
-      } else {
-        slide.classList.remove('active');
-        await disableSection(profile);
-        profileEnabled = false;
-      }
+      await toggleSection(profile, 'profile');
+      history.pushState(null, null, '?page=profile');
+      slide.classList.remove('active');
+      profileEnabled = true;
+      readyState = true;
     });
   });
 
@@ -247,14 +271,18 @@ window.addEventListener('load', async () => {
     el.classList.toggle('active');
   });
 
-  setTimeout(() => {
-    if (currentlyEnabled == 'portfolio') {
-      history.replaceState({ url: 'portfolio.html' }, null, window.location.origin + '/portfolio');
+
+  setTimeout(async () => {
+    switch (currentlyEnabled) {
+      case 'portfolio':
+        await enableSection(portfolio);
+        break;
+      case 'profile':
+        await enableSection(profile);
+        break;
     }
     slide.classList.toggle('active');
+    readyState = true;
   }, 2000);
 
 });
-
-
-window.w
