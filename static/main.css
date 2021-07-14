@@ -27,6 +27,7 @@ html, body {
 
 body {
   background-color: var(--color-background);
+  overscroll-behavior: contain;
 }
 
 ::-webkit-scrollbar {
