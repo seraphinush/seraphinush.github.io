@@ -1,5 +1,6 @@
 #profile {
   display: none;
+  margin-bottom: 70px;
   transition: all 1s linear;
   opacity: 0;
 }

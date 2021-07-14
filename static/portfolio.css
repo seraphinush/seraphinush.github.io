@@ -1,10 +1,11 @@
 :root {
-  --project-size: 1;
+  --entry-size: 1;
 }
 
 #portfolio {
   display: none;
   flex-wrap: wrap;
+  margin-bottom: 70px;
   transition: all 1s linear;
   opacity: 0;
 }
@@ -13,14 +14,18 @@
   opacity: 1;
 }
 
-.project {
+#portfolio.notransition {
+  transition: none !important;
+}
+
+.entry {
   position: relative;
   overflow: hidden;
   transition: all 0.8s ease-in;
   opacity: 0;
 }
 
-.project a {
+.entry a {
   position: relative;
   width: 100% !important;
   height: 100%;
@@ -28,12 +33,12 @@
   overflow: hidden;
 }
 
-.project img {
+.entry img {
   width: 120%;
   transition: all 0.4s ease-out;
 }
 
-.project-info-wrap {
+.entry-info-wrap {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,13 +49,13 @@
   color: #FFF;
 }
 
-.project-info {
+.entry-info {
   position: absolute;
   bottom: 10px;
   transition: all 0.4s ease-out;
 }
 
-.project-desc::after {
+.entry-desc::after {
   position: absolute;
   content: '';
   width: 40px;
@@ -60,66 +65,66 @@
   padding-top: 5px;
 }
 
-.project-desc {
+.entry-desc {
   width: 100%;
   height: 100%;
   text-align: center;
 }
 
-
-.project:hover img {
+.entry:hover img {
   opacity: 1;
   transform: translateY(10px);
 }
 
-.project:hover .project-info-wrap {
+.entry:hover .entry-info-wrap {
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.project:hover .project-info {
+.entry:hover .entry-info {
   bottom: 30px;
 }
 
 @media screen and (min-width: 0px) {
   :root {
-    --project-size: 1;
+    --entry-size: 1;
   }
-  .project {
-    width: calc(100vw / var(--project-size));
-    height: calc(100vw / var(--project-size) / 16 * 9);
+  .entry {
+    width: calc(100vw / var(--entry-size));
+    height: calc(100vw / var(--entry-size) / 16 * 9);
   }
 }
 
 @media screen and (min-width: 600px) {
   :root {
-    --project-size: 2;
+    --entry-size: 2;
   }
 }
 
 @media screen and (min-width: 800px) {
   :root {
-    --project-size: 2;
-  }.project {
-    width: calc((100vw - 10px) / var(--project-size));
-    height: calc((100vw - 10px) / var(--project-size) / 16 * 9);
+    --entry-size: 2;
+  }
+  .entry {
+    width: calc((100vw - 10px) / var(--entry-size));
+    height: calc((100vw - 10px) / var(--entry-size) / 16 * 9);
   }
 }
 
 @media screen and (min-width: 900px) {
   :root {
-    --project-size: 3;
+    --entry-size: 3;
   }
 }
 
 @media screen and (min-width: 1200px) {
   :root {
-    --project-size: 4;
+    --entry-size: 4;
   }
 }
 
 @media screen and (min-width: 1500px) {
   :root {
-    --project-size: 5;
+    --entry-size: 5;
   }
 }

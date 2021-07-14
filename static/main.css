@@ -25,6 +25,10 @@ html, body {
   overflow-x: hidden;
 }
 
+body {
+  background-color: var(--color-background);
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -48,7 +52,8 @@ h1, h2, h3, h4, h5, h6, p, span, ul, ol, li, th, td {
   margin: 0 0;
 }
 
-a:link, a:visited, a:hover, a:active {
+a, a:link, a:visited, a:hover, a:active {
+  color: #000;
   text-decoration: none !important;
   cursor: pointer;
 }
@@ -184,6 +189,12 @@ a:link, a:visited, a:hover, a:active {
   h2, h3 {
     font-weight: unset;
     text-align: center;
+  }
+}
+
+@media screen and (min-width: 256px) {
+  .name span {
+    font-size: 1.5rem;
   }
 }
 

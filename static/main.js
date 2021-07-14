@@ -30,27 +30,34 @@ async function asyncClassRemove(el, toRemove, ms) {
 let navMobileEnabled = false;
 let profileEnabled = false;
 let portfolioEnabled = false;
+let projectEnabled = false;
 let contactEnabled = false;
-let currentlyEnabled = '';
+let currentEnabled = '';
+let currentProjectEnabled = null;
 let readyState = false;
 
-// search based page view
+// search-based page view
 let params = new URLSearchParams(window.location.search.substring(1));
 let page = params.get('page');
 if (page) {
   switch (page) {
     case 'portfolio':
-      currentlyEnabled = page;
+      currentEnabled = page;
       portfolioEnabled = true;
       break;
     case 'profile':
-      currentlyEnabled = page;
+      currentEnabled = page;
       profileEnabled = true;
+      break;
+    case 'project':
+      currentEnabled = page;
+      projectEnabled = true;
+      currentProjectEnabled = params.get('name');
       break;
   }
 } else {
   portfolioEnabled = true;
-  currentlyEnabled = 'portfolio';
+  currentEnabled = 'portfolio';
 }
 
 window.addEventListener('load', async () => {
@@ -61,6 +68,9 @@ window.addEventListener('load', async () => {
   const burgers = document.getElementById('burgers');
   const navMobile = document.getElementById('nav-mobile');
   const portfolio = document.getElementById('portfolio');
+  const portfolioEntries = portfolio.querySelectorAll('.entry');
+  const project = document.getElementById('project');
+  const projectEntries = project.querySelectorAll('.project');
   const profile = document.getElementById('profile');
   const contact = document.getElementById('contact');
 
@@ -107,20 +117,24 @@ window.addEventListener('load', async () => {
   const toggleSection = (el, page) => {
     return new Promise(async (resolve) => {
 
-      if (currentlyEnabled) {
-        switch (currentlyEnabled) {
-          case 'portfolio':
-            await disableSection(portfolio);
-            portfolioEnabled = false;
-            break;
+      if (currentEnabled) {
+        switch (currentEnabled) {
           case 'profile':
             await disableSection(profile);
             profileEnabled = false;
             break;
+          case 'portfolio':
+            await disableSection(portfolio);
+            portfolioEnabled = false;
+            break;
+          case 'project':
+            await disableSection(project);
+            projectEnabled = false;
+            break;
         }
       }
 
-      currentlyEnabled = page;
+      currentEnabled = page;
       await enableSection(el);
       resolve();
     });
@@ -132,11 +146,10 @@ window.addEventListener('load', async () => {
         el.style.display = 'flex';
         await sleep(5);
 
-        // TODO -- need check for the most optimal method ..
-        if (currentlyEnabled == 'portfolio') {
-          const projects = portfolio.querySelectorAll('.project');
+        // TODO
+        if (currentEnabled == 'portfolio') {
           await asyncClassAdd(el, 'active', 0);
-          asyncForEach(projects, async (el) => {
+          asyncForEach(portfolioEntries, async (el) => {
             await sleep(250);
             el.style.opacity = 1;
           });
@@ -154,11 +167,17 @@ window.addEventListener('load', async () => {
         el.style.display = 'none';
         el.classList.remove('active');
 
-        if (currentlyEnabled == 'portfolio') {
-          const projects = portfolio.querySelectorAll('.project');
-          projects.forEach(el => { el.style.opacity = 0; });
+        // TODO
+        if (currentEnabled == 'portfolio') {
+          portfolioEntries.forEach(el => { el.style.opacity = 0; });
         }
-        currentlyEnabled = null;
+
+        // TODO
+        if (currentEnabled == 'project') {
+          project.style.top = '';
+          currentProjectEnabled = null;
+        }
+        currentEnabled = null;
       }
       resolve();
     });
@@ -202,28 +221,6 @@ window.addEventListener('load', async () => {
     }
   });
 
-  // portfolio
-  portfolioButtons.forEach(el => {
-    el.addEventListener('click', async () => {
-      if (!readyState) return;
-      if (contactEnabled) return;
-      if (portfolioEnabled) return;
-      readyState = false;
-
-      await asyncClassAdd(slide, 'active', 1000);
-      if (navMobileEnabled) {
-        disableNavMobileLinks();
-        await sleep(300);
-      }
-      await toggleSection(portfolio, 'portfolio');
-      history.pushState(null, null, '?page=portfolio');
-      slide.classList.remove('active');
-      portfolioEnabled = true;
-      readyState = true;
-    });
-  });
-
-
   // profile
   profileButtons.forEach(el => {
     el.addEventListener('click', async () => {
@@ -246,6 +243,84 @@ window.addEventListener('load', async () => {
     });
   });
 
+  // portfolio
+  portfolioButtons.forEach(el => {
+    el.addEventListener('click', async () => {
+      if (!readyState) return;
+      if (contactEnabled) return;
+      if (portfolioEnabled) return;
+
+      readyState = false;
+      await asyncClassAdd(slide, 'active', 1000);
+      if (navMobileEnabled) {
+        disableNavMobileLinks();
+        await sleep(300);
+      }
+      await toggleSection(portfolio, 'portfolio');
+      history.pushState(null, null, '?page=portfolio');
+      slide.classList.remove('active');
+      portfolioEnabled = true;
+      readyState = true;
+    });
+  });
+
+  // projects
+  portfolioEntries.forEach(el => {
+    el.addEventListener('click', async () => {
+      if (!readyState) return;
+      if (contactEnabled) return;
+      if (!portfolioEnabled) return;
+
+      let projectName = el.dataset.name;
+      await asyncForEach(projectEntries, (el) => {
+        if (!el.dataset) return;
+        if (el.dataset.name === projectName) {
+          el.style.display = 'flex';
+          currentProjectEnabled = projectName;
+        }
+        else {
+          el.style.display = 'none';
+        }
+      });
+
+      readyState = false;
+      await asyncClassAdd(project, 'notransition', 0);
+      project.style.top = (window.scrollY + window.innerHeight) + 'px';
+      await asyncClassRemove(project, 'notransition', 0);
+      await enableSection(project);
+      history.pushState(null, null, '?page=project&name=' + projectName);
+      project.style.top = (window.scrollY + 70) + 'px';
+      await sleep(700);
+      asyncClassAdd(project, 'notransition', 0);
+      asyncClassAdd(portfolio, 'notransition', 0);
+      await sleep(100);
+      project.style.top = 70 + 'px';
+      disableSection(portfolio);
+      portfolioEnabled = false;
+      currentEnabled = 'project';
+      await sleep(100);
+      asyncClassRemove(project, 'notransition', 0);
+      asyncClassRemove(portfolio, 'notransition', 0);
+      projectEnabled = true;
+      readyState = true;
+    });
+  });
+
+  document.body.addEventListener('scroll', () => {
+    if (!projectEnabled) return;
+    if (!currentProjectEnabled) return;
+    if (window.innerWidth < 800) return;
+
+    let project;
+    projectEntries.forEach(el => el.dataset.name === currentProjectEnabled ? project = el : null);
+    if (!project) return;
+
+    let info = project.querySelector('.proj-desc');
+    if (!info) return;
+
+    info.style.top = document.body.scrollTop + 'px';
+  });
+
   // contact
   contactButtons.forEach(el => {
     el.addEventListener('click', async () => {
@@ -265,9 +340,7 @@ window.addEventListener('load', async () => {
     });
   });
 
-  contact.addEventListener('click', (e) => {
-    if (e.target.classList.contains('contact-button')) return;
-    if (e.target.classList.contains('contact-button-mobile')) return;
+  contact.addEventListener('click', () => {
     if (contactEnabled) {
       contact.classList.remove('active');
       contactEnabled = false;
@@ -275,21 +348,35 @@ window.addEventListener('load', async () => {
   });
 
   // start
+  await asyncForEach(projectEntries, (el) => {
+    el.style.display = 'none';
+  });
+
   await asyncForEach(nameArray, async (el) => {
     await sleep(80);
     el.classList.toggle('active');
   });
 
-
   setTimeout(async () => {
-    switch (currentlyEnabled) {
+    switch (currentEnabled) {
+      case 'profile':
+        await enableSection(profile);
+        history.pushState(null, null, '?page=profile');
+        break;
       case 'portfolio':
         await enableSection(portfolio);
         history.pushState(null, null, '?page=portfolio');
         break;
-      case 'profile':
-        await enableSection(profile);
-        history.pushState(null, null, '?page=profile');
+      case 'project':
+        await asyncForEach(projectEntries, (el) => {
+          if (!el.dataset) return;
+          if (el.dataset.name === currentProjectEnabled) {
+            el.style.display = 'flex';
+          }
+        });
+        project.style.top = '70px';
+        await enableSection(project);
+        history.pushState(null, null, '?page=project&name=' + currentProjectEnabled);
         break;
     }
     slide.classList.toggle('active');
