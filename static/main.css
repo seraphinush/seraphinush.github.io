@@ -151,7 +151,6 @@ a, a:link, a:visited, a:hover, a:active {
 .content {
   width: 100%;
   margin-top: 70px;
-  min-height: calc(100vh - 140px);
   background-color: var(--color-background);
 }
 
@@ -190,6 +189,9 @@ a, a:link, a:visited, a:hover, a:active {
   h2, h3 {
     font-weight: unset;
     text-align: center;
+  }
+  .content {
+    height: calc(100vh - 140px);
   }
 }
 

@@ -108,6 +108,9 @@ th {
   .skillset {
     align-items: unset;
   }
+  #skills {
+    margin-bottom: 50px;
+  }
 }
 
 @media screen and (min-width: 1280px) {
